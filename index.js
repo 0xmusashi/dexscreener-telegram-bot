@@ -6,7 +6,7 @@ const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
 
 const formatNumber = (num) => {
     const result = num / 1000000;
-    return `$result M`;
+    return `${result.toFixed(2)}`;
 }
 
 bot.onText(/\/price (.+)/, async (msg, match) => {
@@ -19,10 +19,10 @@ bot.onText(/\/price (.+)/, async (msg, match) => {
         const liquidity = formatNumber(pair.liquidity.usd);
         const fdv = formatNumber(pair.fdv);
         const message = `
-${name} Price Info\n
-$${symbol} price is ${price} USD\n
-FDC is ${fdv} USD\n
-Liquidity: ${liquidity} USD
+${name} Price Info
+$${symbol} price: ${price} USD
+FDV: ${fdv} M
+Liquidity: ${liquidity} M
         `;
 
         const opts = {

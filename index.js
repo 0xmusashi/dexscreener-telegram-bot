@@ -11,9 +11,18 @@ bot.onText(/\/price (.+)/, async (msg, match) => {
         const pair = response.data.pairs[0];
         const { symbol, name } = pair.baseToken;
         const price = pair.priceUsd;
-        const message = `${name} - ${symbol} price is ${price} USD`;
+        const liquidity = pair.liquidity.usd;
+        const message = `
+${name} Price Info\n
+$${symbol} price is ${price} USD\n
+Liquidity: ${liquidity} USD
+        `;
 
-        await bot.sendMessage(msg.chat.id, message);
+        const opts = {
+            parsed_mode: 'HTML',
+        }
+
+        await bot.sendMessage(msg.chat.id, message, opts);
     } catch (error) {
         await bot.sendMessage(msg.chat.id, 'Error fetching price data. Please try again later.');
     }
